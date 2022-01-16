@@ -1,4 +1,4 @@
-# Design_Patterns
+# Design Patterns
 
 The repository will be used to analyze and study designn patterns from the gang of four. The 24 patterns are listed as follows.
 
