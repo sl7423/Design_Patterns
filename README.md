@@ -1,6 +1,6 @@
 # Design Patterns
 
-The repository will be used to analyze and study designn patterns from the gang of four. The 24 patterns are listed as follows.
+The repository will be used to analyze and study designn patterns from the gang of four. The 24 patterns are listed as follows, and the primary source that will be used is from https://refactoring.guru/design-patterns/. Basically, I will translate the book's pseudocode into the pattern in Python as practice. 
 
 ## Creational Design Patterns
 
