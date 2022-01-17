@@ -30,23 +30,23 @@ class AudioPlayer:
     def clickPrevious(self):
         self._state.clickPrevious()
 
-    def startPlayback(self) -> str:
-        return f"Playing lovely music"
+    def startPlayback(self) -> None:
+        print(f"Playing lovely music")
 
-    def stopPlayback(self) -> str:
-        return f"Stopping the playing of songs"
+    def stopPlayback(self) -> None:
+        print(f"Stopping the playing of songs")
 
-    def nextSong(self) -> str:
-        return f"Playing the next song"
+    def nextSong(self) -> None:
+        print(f"Playing the next song")
 
-    def previousSong(self) -> str:
-        return f"Playing the previous song"
+    def previousSong(self) -> None:
+        print(f"Playing the previous song")
 
-    def fastForward(self, time) -> str:
-        return f"fast Forward a song by {time}"
+    def fastForward(self, time) -> None:
+        print(f"fast Forward a song by {time}")
 
-    def rewind(self, time) -> str:
-        return f"Rewind a song by {time}"
+    def rewind(self, time) -> None:
+        print(f"Rewind a song by {time}")
 
 
 class State(ABC):
@@ -84,52 +84,56 @@ class LockedState(State):
             self.changeState(ReadyState())
 
     def clickPlay(self) -> str:
-        return "Locked and do nothing!"
+        print("Locked and do nothing!")
 
     def clickNext(self) -> str:
-        return "Locked and do nothing"
+        print("Locked and do nothing")
 
     def clickPrevious(self) -> str:
-        return "Locked and do nothing"
+        print("Locked and do nothing")
 
 class ReadyState(State):
     def clickLock(self) -> None:
-        self.changeState(LockedState())
+        self.audioplayer.changeState(LockedState())
 
     def clickPlay(self) -> None:
         self.audioplayer.startPlayback()
         self.audioplayer.changeState(PlayingState())
 
     def clickNext(self) -> None:
-        self.nextSong()
+        self.audioplayer.nextSong()
 
     def clickPrevious(self):
-        self.previousSong()
+        self.audioplayer.previousSong()
 
 class PlayingState(State):
     def clickLock(self) -> None:
-        self.changeState(LockedState())
+        self.audioplayer.changeState(LockedState())
 
     def clickPlay(self):
-        self.stopPlayback()
-        self.changeState(ReadyState())
+        self.audioplayer.stopPlayback()
+        self.audioplayer.changeState(ReadyState())
 
     def clickNext(self, doubleclick='Yes'):
         if doubleclick == 'Yes':
-            self.nextSong()
+            self.audioplayer.nextSong()
         else:
-            self.fastForward(5)
+            self.audioplayer.fastForward(5)
     
 
     def clickPrevious(self, doubleclick="Yes"):
         if doubleclick == 'Yes':
-            self.previousSong()
+            self.audioplayer.previousSong()
         else:
-            self.rewind(5)
+            self.audioplayer.rewind(5)
 
 if __name__ == '__main__':
     #context = AudioPlayer('GUI', 50, "EDM", "Don't you worry child", ReadyState())
     context = AudioPlayer(ReadyState())
     context.clickPlay()
-
+    context.nextSong()
+    context.fastForward(5)
+    context.clickLock()
+    context.fastForward(5)
+    context.clickNext()
 
