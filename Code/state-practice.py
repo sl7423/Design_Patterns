@@ -1,50 +1,52 @@
+from __future__ import annotations
 from abc import ABC, abstractmethod
 
 class AudioPlayer:
 
     _state = None
 
-    def __init__(self, state: State, UI, volume, playlist, currentSong):
-        self.changeState = state
-        self.UI = UI
-        self.volume = volume
-        self.playlist = playlist
-        self.currentSong = currentSong
+    #def __init__(self, UI, volume, playlist, currentSong, state: State):
+    def __init__(self, state: State) -> None:
+        self.changeState(state)
+        # self.UI = UI
+        # self.volume = volume
+        # self.playlist = playlist
+        # self.currentSong = currentSong
 
     def changeState(self, state: State):
         print(f"Context: Transition to {type(state).__name__}")
         self._state = state
-        self._state.context = self
+        self._state.audioplayer = self
 
     def clickLock(self):
-        return self._state.clickLock()
+        self._state.clickLock()
 
     def clickPlay(self):
-        return self._state.clickPlay()
+        self._state.clickPlay()
 
     def clickNext(self):
-        return self._state.clickNext()
+        self._state.clickNext()
 
     def clickPrevious(self):
-        return self._state.clickPrevious()
+        self._state.clickPrevious()
 
-    def startPlayback(self):
-        return "Playing lovely music"
+    def startPlayback(self) -> str:
+        return f"Playing lovely music"
 
-    def stopPlayback(self):
-        return "Stopping the playing of songs"
+    def stopPlayback(self) -> str:
+        return f"Stopping the playing of songs"
 
-    def nextSong(self):
-        return "Playing the next song"
+    def nextSong(self) -> str:
+        return f"Playing the next song"
 
-    def previousSong(self):
-        return "Playing the previous song"
+    def previousSong(self) -> str:
+        return f"Playing the previous song"
 
-    def fastForward(self, time):
-        pass
+    def fastForward(self, time) -> str:
+        return f"fast Forward a song by {time}"
 
-    def rewind(self, time):
-        pass
+    def rewind(self, time) -> str:
+        return f"Rewind a song by {time}"
 
 
 class State(ABC):
@@ -55,7 +57,7 @@ class State(ABC):
 
     @audioplayer.setter
     def audioplayer(self, audioplayer: AudioPlayer) -> AudioPlayer:
-        self._audioplayer = AudioPlayer 
+        self._audioplayer = audioplayer
 
     @abstractmethod
     def clickLock(self):
@@ -75,20 +77,19 @@ class State(ABC):
     
 
 class LockedState(State):
-    def clickLock(self) -> None:
-        pass   
-        # if self._state == ReadyState():
+    def clickLock(self, playing='yes') -> None:
+        if playing == 'yes':
+            self.changeState(PlayingState())
+        else:
+            self.changeState(ReadyState())
 
-        # else:
-        #     self._state == LockedState():
-
-    def clickPlay(self) -> None:
+    def clickPlay(self) -> str:
         return "Locked and do nothing!"
 
-    def clickNext(self) -> None:
+    def clickNext(self) -> str:
         return "Locked and do nothing"
 
-    def clickPrevious(self) -> None:
+    def clickPrevious(self) -> str:
         return "Locked and do nothing"
 
 class ReadyState(State):
@@ -96,4 +97,39 @@ class ReadyState(State):
         self.changeState(LockedState())
 
     def clickPlay(self) -> None:
-        self.
+        self.audioplayer.startPlayback()
+        self.audioplayer.changeState(PlayingState())
+
+    def clickNext(self) -> None:
+        self.nextSong()
+
+    def clickPrevious(self):
+        self.previousSong()
+
+class PlayingState(State):
+    def clickLock(self) -> None:
+        self.changeState(LockedState())
+
+    def clickPlay(self):
+        self.stopPlayback()
+        self.changeState(ReadyState())
+
+    def clickNext(self, doubleclick='Yes'):
+        if doubleclick == 'Yes':
+            self.nextSong()
+        else:
+            self.fastForward(5)
+    
+
+    def clickPrevious(self, doubleclick="Yes"):
+        if doubleclick == 'Yes':
+            self.previousSong()
+        else:
+            self.rewind(5)
+
+if __name__ == '__main__':
+    #context = AudioPlayer('GUI', 50, "EDM", "Don't you worry child", ReadyState())
+    context = AudioPlayer(ReadyState())
+    context.clickPlay()
+
+
