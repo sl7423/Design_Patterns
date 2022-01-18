@@ -50,7 +50,6 @@ class CarBuilder(Builder):
             raise TypeError("Please enter a number!")
 
     def setEngine(self, engineType):
-        print(engineType)
         if engineType in Engine._member_names_:
             self._product.add(f"set Engine as {engineType}")
         else:
