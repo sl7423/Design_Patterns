@@ -45,4 +45,5 @@ def main():
     print(small_adapt.getRadius())
     hole.fits(small_adapt) #In an update, we can change this typechecking
 
-main()
+if __name__ == "__main__":
+    main()
