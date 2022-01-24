@@ -4,16 +4,16 @@ The repository will be used to analyze and study designn patterns from the gang 
 
 ## Creational Design Patterns
 
-1. Abstract Factory
-2. Factory
-3. Builder
-4. Prototype
+1. Abstract Factory - Completed
+2. Factory - Completed
+3. Builder - Completed
+4. Prototype - Completed, but have reservation on the model.
 5. Singleton 
 
 ## Structural Design Patterns
 
 1. Adapter 
-2. Bridge
+2. Bridge - Completed
 3. Composite
 4. Decorator
 5. Facade
@@ -29,7 +29,7 @@ The repository will be used to analyze and study designn patterns from the gang 
 5. Mediator
 6. Memento
 7. Observer
-8. State
+8. State - Completed
 9. Strategy
 10. Template
 11. Visitor
