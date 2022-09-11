@@ -1,5 +1,10 @@
 import random
 
+"""
+Below, we implement the chain of responsiblity, in which we pass requests from one object to another. The implemention below uses a linked list to pass requests. 
+
+"""
+
 class Component:
     def __init__(self):
         self.container = None
